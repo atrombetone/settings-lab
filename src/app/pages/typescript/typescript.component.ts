@@ -8,25 +8,38 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 })
 export class TypescriptComponent implements OnInit {
 
-  //Proximo substituir esse array por uma chamada ao serviço (API)
   ctrls: Array<any> = [
-    { name: 'isGallery', label: 'Galeria', value: false},
-    { name: 'isContacts', label: 'Contatos', value: false},
-    { name: 'isAccounts', label: 'Contas', value: false},
-    { name: 'isNotification', label: 'Notificações', value: true}
+    {
+      name: 'isGallery',
+      label: 'Galeria',
+      value: false
+    },
+    {
+      name: 'isContacts',
+      label: 'Contatos',
+      value: false
+    },
+    {
+      name: 'isAccounts',
+      label: 'Contas',
+      value: false
+    },
+    {
+      name: 'isNotification',
+      label: 'Notificações',
+      value: true
+    }
   ];
 
-   settingsForm = new FormGroup({ });
+   public settingsForm: FormGroup = new FormGroup({});
 
-   constructor(private fb: FormBuilder) { }
+   constructor(private fb: FormBuilder) {
+     this.ctrls.forEach(item => {
+       this.settingsForm.addControl(item.name, new FormControl(item.value));
+     });
+   }
 
-  ngOnInit() {
-    this.ctrls.forEach(c => {
-      const control = this.fb.control(c.value);
-      this.settingsForm.addControl(control);
-    });
-
-  }
+  ngOnInit() {  }
 
   salvar() {
     alert(JSON.stringify(this.settingsForm.value));
